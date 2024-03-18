@@ -5,21 +5,24 @@ Oracle PL/SQL code by Daniel South, 7 March 2024
 To ensure that rows inserted into a table are not duplicates of existing rows, we can check to see whether a row exists and insert it if it does not.
 This requires multiple statements in a PL/SQL block.
 
-DECLARE
-  n_num_rows NUMBER := 0;
-BEGIN
-  SELECT  COUNT(*)
-  INTO    n_num_rows
-  FROM    my_table
-  WHERE   key_column = 123;
+DECLARE  
+    n_num_rows NUMBER := 0;  
+  
+BEGIN  
 
-  IF n_num_rows < 1 THEN
-    INSERT INTO my_table(key_column, attribute1) VALUES(123, 'Hello, World!');
-    COMMIT;
-  ELSE
-    dbms_output.put_line('A row exists already for key column 123');
-  END IF;
-END;
+  SELECT  COUNT(*)  
+  INTO    n_num_rows  
+  FROM    my_table  
+  WHERE   key_column = 123;  
+
+  IF n_num_rows < 1 THEN  
+    INSERT INTO my_table(key_column, attribute1) VALUES(123, 'Hello, World!');  
+    COMMIT;  
+  ELSE  
+    dbms_output.put_line('A row exists already for key column 123');  
+  END IF;  
+  
+END;  
 /
 
 If the key column has a unique index or a primary key contstraint, we would attempt to insert the row and ignore the DUP_VAL_ON_INDEX exception,
